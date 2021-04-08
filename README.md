@@ -8,11 +8,11 @@ Please follow the instructions below and fill in the information requested when 
 
 ## Student Information
 
-|               | Information   |
-|:-------------:|:-------------:|
-| Student Name  | name-here     |
-| Student ID    | id-here       |
-| Student Email | email-here    |
+|               | Information           |
+|:-------------:|:---------------------:|
+| Student Name  | Jade Simien           |
+| Student ID    | 920258687             |
+| Student Email | jsimien@mail.sfsu.edu |
 
 
 
