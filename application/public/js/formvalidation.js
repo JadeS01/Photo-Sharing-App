@@ -3,6 +3,8 @@ const password = document.getElementById('password')
 const redo = document.getElementById('redo')
 const register = document.getElementById('register')
 const errorElement = document.getElementById('error')
+const ages = document.querySelectorAll('input[name="age"]');
+let value;
 var req = /(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)/;
 var check = /^[a-zA-Z]/;
 
@@ -25,6 +27,17 @@ register.addEventListener('submit', (e) => {
 
     if(password.value != redo.value) {
         messages.push('\nPasswords must match')
+    }
+
+    for (const age of ages) {
+        if(age.checked) {
+            value = age.value;
+            break;
+        }
+    }
+    var ageno = "no";
+    if(value == ageno) {
+        messages.push('\nYou must be 13 or older');
     }
 
     if (messages.length > 0) {
