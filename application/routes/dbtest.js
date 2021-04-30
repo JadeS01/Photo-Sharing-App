@@ -50,5 +50,6 @@ router.get('/getAllPosts', (req, res, next) => {
       next(err);
    })
 })
+
  
 module.exports = router;

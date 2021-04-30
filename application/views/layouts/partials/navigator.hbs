@@ -1,0 +1,15 @@
+<nav id="nav-bar">
+    <div id="nav-items" class="nav-items">
+        <a href="/" id="anchor"><span id="anchor-text"><i style="margin-right: .2rem;
+        "></i>Photo App</span></a>
+    </div>
+    <a href="/postimage" id="pi-button">Post Image</a>
+    
+    {{#if logged}}
+    <a href="/users/logout" id="lo-button">Log Out</a>
+    {{else}}
+    
+    <a href="/login" id="li-button">Login</a>
+{{/if}}
+
+</nav>
