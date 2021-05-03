@@ -8,10 +8,6 @@ router.get('/', function(req, res, next) {
   res.render('index',{title: "Jade's App"});
 });
 
-router.get('/navigator', (req, res, next) => {
-  res.render("navigator", {title: "navigator"});
-});
-
 router.get('/login',(req,res,next) => {
   res.render("login",{title: "Log In"});
 });

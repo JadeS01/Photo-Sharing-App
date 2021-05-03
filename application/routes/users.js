@@ -3,6 +3,8 @@ const e = require('express');
 var express = require('express');
 var bcrypt = require('bcrypt');
 var router = express.Router();
+
+
 //database
 var db = require('../conf/database');
 const { successPrint, errorPrint } = require('../helpers/debug/debugprinters');
@@ -107,7 +109,7 @@ router.post('/login', (req, res, next) => {
         // res.cookie("logged", username, {expires: new Date(Date.now()+900000), httpOnly: false});
         // res.redirect('/');
       req.flash('success', 'You have been logged in');
-      res.redirect("/");
+      res.redirect("/home");
     } else {
       throw new UserError("Invalid login", "/login", 200);
     }

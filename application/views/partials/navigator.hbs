@@ -1,0 +1,50 @@
+<style>
+    ul {
+        background-color: #7fe6ef;
+        position: -webkit-sticky;
+        position: sticky;
+        margin-right: .2rem;
+        display: grid;
+    }
+
+    li a{
+        display: block;
+        text-align: center;
+        padding: 14px 16px;
+    }
+
+    li a:hover {
+        background-color: #375d61;
+    }
+
+    li a, .pointer {
+        cursor: pointer;
+    }
+
+    .active {
+        background-color: #7fe6ef;
+    }
+    #nav-items {
+        text-align: center;
+    }
+
+</style>
+
+<nav id="nav-bar">
+    <div id="nav-items" class="nav-items">
+        <a href="/" id="anchor"><span id="anchor-text"><i style="margin-right: .2rem;
+        "></i>Photo App</span></a>
+    </div>
+    <ul>
+    <li><a href="/home" id="home-button">Home</a></li>
+    <li><a href="/postimage" id="pi-button">Post Image</a></li>
+    
+    {{#if logged}}
+    <li><a href="/users/logout" id="lo-button">Log Out</a></li>
+    {{else}}
+    
+    <li><a href="/login" id="li-button">Login</a></li>
+    <ul>
+{{/if}}
+
+</nav>

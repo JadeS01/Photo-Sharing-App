@@ -21,12 +21,14 @@ var app = express();
 app.engine(
     "hbs",
     handlebars({
-        layoutsDir: path.join(__dirname,"views/layouts"),
-        partialsDir: path.join(__dirname,"views/partials"),
+        layoutsDir: path.join(__dirname,"views/layouts/"),
+        partialsDir: path.join(__dirname,"views/partials/"),
         extname:".hbs",
         defaultLayout:"home",
         helpers: {
             //if more helpers needed, can register here
+
+
         }
     })
 );
