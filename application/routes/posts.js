@@ -21,8 +21,41 @@ var storage = multer.diskStorage({
 var uploader = multer({storage: storage});
 // made uploader a parameter that only accepts a single image
 router.post('/createPost', uploader.single("uploadImage"),(req, res, next) => {
-    console.log(req);
-    res.send('');
+    let fileUploaded = req.file.path;
+    let fileAsThumbnail = `thumbnail-${req.file.filename}`;
+    let destinationOfThumbnail = req.file.destination + "/" + fileAsThumbnail;
+    let title = req.body.title;
+    let description = req.body.description
+    let fk_userId = req.session.userId;
+
+    /** do server validation: check if forms are undefined;
+     *  bind parameters cannot be undefined */
+
+    sharp(fileUploaded)
+    .resize(200)
+    .toFile(destinationOfThumbnail)
+    .then(() => {
+        let baseSQL = `INSERT INTO posts (title, description, photopath, thumbnail, created, fk_userid) VALUE (?,?,?,?,now(),?);;`;
+        return db.execute(baseSQL,[title, description,fileUploaded,destinationOfThumbnail,fk_userId])
+    })
+    .then(([results, fields]) => {
+        if(results && results.affectedRows){
+            req.flash('success', "Post created");
+            res.redirect('/');
+        }else{
+            throw new PostError('Post could not be created', '/postimage',200);
+        }
+    })
+    .catch((err) => {
+        if(err instanceof PostError){
+            errorPrint(err.getMessage());
+            req.flash('error', err.getMessage());
+            res.status(err.getStatus());
+            res.redirect(err.getRedirectURL());
+        }else{
+            next(err);
+        }
+    })
 });
 
 module.exports = router;
