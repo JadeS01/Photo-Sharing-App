@@ -11,7 +11,10 @@
 </head>
 <body>
     <div id="container">
+        {{log this}}
+        {{#if (emptyObject messages)}}
         {{> flashmessage}}
+        {{/if}}
         {{{body}}}
       
     </div>

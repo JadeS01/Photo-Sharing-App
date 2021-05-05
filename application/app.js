@@ -11,6 +11,7 @@ var flash = require('express-flash');
 var handlebars = require('express-handlebars');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var postsRouter = require('./routes/posts');
 var errorPrint = require('./helpers/debug/debugprinters').errorPrint;
 var requestPrint = require('./helpers/debug/debugprinters').requestPrint;
 
@@ -26,6 +27,9 @@ app.engine(
         extname:".hbs",
         defaultLayout:"home",
         helpers: {
+            emptyObject: (obj) => {
+                return !(obj.constructor === Object && Object.keys(obj).length == 0);
+            }
             //if more helpers needed, can register here
 
 
@@ -72,6 +76,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/dbtest', dbRouter);
 app.use('/users', usersRouter);
+app.use('/posts', postsRouter);
 
 app.use((err, req, res, next) => {
     errorPrint(err);
