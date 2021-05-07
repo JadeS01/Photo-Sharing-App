@@ -1,3 +1,7 @@
   <h1>Express</h1>
   <h2>Hello world, I am {{title}}</h2>
-
+<div id="main-content">
+  {{#each results}}
+      {{> card this}}
+  {{/each}}
+</div>

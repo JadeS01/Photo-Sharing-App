@@ -1,23 +1,26 @@
-	<section id="post title">
+<div id="post-container">
+	<section id="post-title">
 		<center>
-			<h3>Post Title</h3>
+			<h3>{{currentPost.title}}</h3>
 		</center>
 	</section>
-	<section id="post author">
+	<section id="post-author">
 		<center>
-			<p>Post Author</p>
+			<p>{{currentPost.username}}</p>
 		</center>
 	</section>
-	<section id="post time">
+	<section id="post-time">
 		<center>
-			<p>Posted at: XX/XX/XXXX</p>
+			<p>Posted at: {{currentPost.created}}</p>
 		</center>
 	</section>
 	<section id="image">
 		<center>
 			<p>Post Image</p>
-			<img src="https://i.ytimg.com/vi/PqweYCDi3uc/maxresdefault.jpg">
+			<img src="/{{currentPost.photopath}}">
 		</center>
 	</section>
-	<footer>
-	</footer>
+	<section id="post-desc">
+		<p>{{currentPost.description}}</p>
+	</section>
+</div>
