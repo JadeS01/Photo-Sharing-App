@@ -1,18 +1,17 @@
-var db = require('../conf/database');
+var PostModel = require('../models/Posts')
 const postMiddleware = {}
 
 postMiddleware.getRecentPosts = function(req, res, next){
-    // getch 8 recent posts, can put ? instead
-    let baseSQL = 'SELECT id, title, description, thumbnail, created FROM posts ORDER BY created DESC LIMIT 8';
-    db.execute(baseSQL, [])
-    .then(([results, fields]) => {
+    try { // i cant use await?
+        let results = PostModel.getRecentPosts(8);
         res.locals.results = results;
-        if(results && results.length == 0){
-            req.flash('error', 'No posts made!');
+        if(results.length == 0) {
+            req.flash('error', 'No posts yet');
         }
         next();
-    })
-    .catch((err) => next(err));
+    } catch(err) {
+        next(err);
+    }
 }
 
 module.exports = postMiddleware;

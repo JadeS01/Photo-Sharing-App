@@ -1,0 +1,29 @@
+input[type=submit], button[type=submit], .pointer {
+    width: 100%;
+    padding: 14px 20px;
+    grid-column: 2/3;
+    cursor: pointer;
+}
+
+input[type=submit]:hover, button[type=submit]:hover {
+    background-color: #7fe6ef;
+}
+
+#search-items {
+    color:#7fe6ef;
+    height: 100%;
+    width: 100%;
+    padding: 6px 10px;
+}
+
+#flash-message{
+    position: fixed;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%,0)
+  }
+  
+  #flash-message div{
+    text-align: center;
+  }
+  

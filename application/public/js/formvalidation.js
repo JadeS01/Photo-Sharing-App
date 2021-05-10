@@ -1,5 +1,3 @@
-const flash = require("express-flash")
-
 const username = document.getElementById('username')
 const password = document.getElementById('password')
 const redo = document.getElementById('redo')
