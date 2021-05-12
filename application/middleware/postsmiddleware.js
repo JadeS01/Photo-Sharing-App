@@ -1,9 +1,10 @@
-var PostModel = require('../models/Posts')
+const {getRecentPosts, getPostById} = require('../models/Posts')
+const {getCommentsForPost} = require('../models/comments');
 const postMiddleware = {}
 
-postMiddleware.getRecentPosts = function(req, res, next){
-    try { // i cant use await?
-        let results = PostModel.getRecentPosts(8);
+postMiddleware.getRecentPosts = async function(req, res, next){
+    try { // i cant use await?; use async
+        let results = await getRecentPosts(8);
         res.locals.results = results;
         if(results.length == 0) {
             req.flash('error', 'No posts yet');
@@ -11,6 +12,32 @@ postMiddleware.getRecentPosts = function(req, res, next){
         next();
     } catch(err) {
         next(err);
+    }
+}
+postMiddleware.getPostById = async function(req, res, next){
+    try{
+        let postId = req.params.id;
+        let results = await getPostById(postId);
+        if(results && results.length){
+            res.locals.currentPost = results[0];
+            next(); // need otherwise express will hang
+        }else{
+            req.flash("error", "This is not the post searched for");
+            res.redirect('/');
+        }
+    } catch (error) {
+        next(err);
+    }
+}
+
+postMiddleware.getCommentsByPostId = async function(req, res, next) {
+    let postId = req.params.id;
+    try{
+        let results = await getCommentsForPost(postId);
+        res.locals.currentPost.comments = results;
+        next();
+    } catch(error) {
+        next(error);
     }
 }
 

@@ -69,7 +69,7 @@ router.post('/createPost', uploader.single("uploadImage"), (req, res, next) => {
 });
 
 
-router.get('/search', async(req, res, next) => {
+router.get('/search', async (req, res, next) => {
     try {
         let searchTerm = req.query.search;
         if (!searchTerm) {
@@ -86,10 +86,10 @@ router.get('/search', async(req, res, next) => {
                     results: results
                 });
             } else {
-                let results = await PostModel.getNRecentPosts(12);
+                let results = await PostModel.getRecentPosts(12);
                 res.send({
                     message: "No results were found for your search, but here are the 12 most recent posts.",
-                    results: results,
+                    results: results
                 });
             }
         }

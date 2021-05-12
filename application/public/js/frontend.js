@@ -17,7 +17,7 @@ function addFlashFromFrontEnd(message) {
     let innerFlashDiv = document.createElement('div');
     let innerTextNode = document.createTextNode(message);
     innerFlashDiv.appendChild(innerTextNode);
-    flashMessageDiv.appendChild(innerFLashDiv);
+    flashMessageDiv.appendChild(innerFlashDiv);
     flashMessageDiv.setAttribute('id', 'flash-message');
     innerFlashDiv.setAttribute('class', 'alert-info');
     document.getElementsByTagName('body')[0].appendChild(flashMessageDiv);
@@ -26,7 +26,7 @@ function addFlashFromFrontEnd(message) {
 
 function createCard(postData) {
     return `<div id="post-${postData.id}" class="card">
-    <img class="card-image" src="${postData.thumbnail} alt="No image">
+    <img class="card-image" src="${postData.thumbnail}" alt="No image">
     <div class="card-body">
         <p class="card-title">${postData.title}</p>
         <p class="card-text">${postData.description}</p>
@@ -37,7 +37,7 @@ function createCard(postData) {
 
 function executeSearch() {
     let searchTerm = document.getElementById('search-text').value;
-    if(searchTerm){
+    if(!searchTerm){
         location.replace('/');
         return;
     }
@@ -48,6 +48,7 @@ function executeSearch() {
         return data.json();
     })
     .then((data_json)=> {
+        console.log(data_json);
        let newMainContentHTML = '';
        data_json.results.forEach((row) => {
            newMainContentHTML += createCard(row);

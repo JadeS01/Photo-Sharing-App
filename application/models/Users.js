@@ -42,14 +42,16 @@ UserModel.authenticate = (username, password) => {
     return db
     .execute(baseSQL,[username])
     .then(([results, fields]) => {
+        console.log(results);
         if(results && results.length == 1) {
-            userId = results[0].userId;
+            userId = results[0].id;
             return bcrypt.compare(password, results[0].password);
         } else {
             return Promise.reject(-1);
         }
     })
     .then((passwordsMatch) => {
+        console.log(userId);
         if(passwordsMatch){
             return Promise.resolve(userId);
         } else {

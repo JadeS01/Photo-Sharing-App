@@ -9,7 +9,7 @@ PostModel.create = (title, description, photopath, thumbnail, fk_userId) => {
     })
     .catch((err) => Promise.reject(err));
 }
-
+ 
 PostModel.search = (searchTerm) => {
     let baseSQL = "SELECT id, title, description, thumbnail, concat_ws(' ', title, description) AS haystack \
         FROM posts \
@@ -26,11 +26,29 @@ PostModel.search = (searchTerm) => {
 
 PostModel.getRecentPosts = (numberOfPost) => {
     let baseSQL = 'SELECT id, title, description, thumbnail, created FROM posts ORDER BY created DESC LIMIT ?';
-    return db.execute(baseSQL, [])
+    return db
+    .query(baseSQL, [numberOfPost])
     .then(([results, fields]) => {
         return Promise.resolve(results);
     })
     .catch((err) => Promise.reject(err));
+}
+
+PostModel.getPostById = (postId) => {
+    // res.send({params:req.params.id});
+  let baseSQL = 
+  `SELECT u.username, p.title, p.description, p.photopath, p.created \
+  FROM users u
+  JOIN posts p
+  ON u.id=fk_userid
+  WHERE p.id=?;`;
+  // server side validation
+  return db
+  .execute(baseSQL,[postId])
+  .then(([results, fields]) => {
+      return Promise.resolve(results);
+  })
+  .catch(err => Promise.reject(err));
 }
 
 module.exports = PostModel;

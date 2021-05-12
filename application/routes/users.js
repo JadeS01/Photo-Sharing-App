@@ -87,11 +87,11 @@ router.post('/login', (req, res, next) => {
         // res.cookie("logged", username, {expires: new Date(Date.now()+900000), httpOnly: false});
         // res.redirect('/');
       req.flash('success', 'You have been logged in');
-      res.redirect("/");
+      req.session.save(err => {res.redirect("/")}); // apply to all redirects for flash
     } else {
       throw new UserError("Invalid login", "/login", 200);
     }
-  })
+  }) 
   .catch((err) => {
     errorPrint("User login failed");
     if(err instanceof UserError) {

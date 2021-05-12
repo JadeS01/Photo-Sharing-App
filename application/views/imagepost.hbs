@@ -1,26 +1,43 @@
+<link rel="stylesheet" type="text/css" href="public/css/imagepost.css">
 <div id="post-container">
-	<section id="post-title">
+	<div id="post-title">
 		<center>
 			<h3>{{currentPost.title}}</h3>
 		</center>
-	</section>
-	<section id="post-author">
+	</div>
+	<div id="post-author">
 		<center>
 			<p>{{currentPost.username}}</p>
 		</center>
-	</section>
-	<section id="post-time">
+	</div>
+	<div id="post-time">
 		<center>
 			<p>Posted at: {{currentPost.created}}</p>
 		</center>
-	</section>
-	<section id="image">
+	</div>
+	<div id="image">
 		<center>
-			<p>Post Image</p>
 			<img src="/{{currentPost.photopath}}">
 		</center>
-	</section>
-	<section id="post-desc">
+	</div>
+	<div id="post-desc">
 		<p>{{currentPost.description}}</p>
-	</section>
+	</div>
+	<div id="comment-container">
+		<div id="messages">
+			<div id="message-">
+				<strong class="author-text">@bcrypt</strong>
+				<span class="date-posted">30 minutes ago</span>
+				<div class="comment-text">Comment test</div>
+			</div>
+			{{!-- {{log this}} --}}
+		</div>
+		<div id="comment-box">
+
+		</div>
+		<textarea id="comment-box-text" class="form-control" aria-label="with textarea"
+			placeholder="Comment Here"></textarea>
+		<button id="comment-box button" type="submit">Send</button>
+	</div>
+</div>
 </div>

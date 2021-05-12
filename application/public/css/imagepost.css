@@ -1,33 +1,4 @@
-input[type=submit], button[type=submit], .pointer {
-    width: 100%;
-    padding: 14px 20px;
-    grid-column: 2/3;
-    cursor: pointer;
-}
-
-input[type=submit]:hover, button[type=submit]:hover {
-    background-color: #7fe6ef;
-}
-
-#search-items {
-    color:#7fe6ef;
-    height: 100%;
-    width: 100%;
-    padding: 6px 10px;
-}
-
-#flash-message{
-    position: fixed;
-    left: 50%;
-    top: 25%;
-    transform: translate(-50%,0)
-  }
-  
-  #flash-message div{
-    text-align: center;
-  }
-  
-  #post-container {
+#post-container {
     grid-area: content;
     padding-top: .35em;
     padding-bottom: .35em;
@@ -78,4 +49,22 @@ div[id^=message-]{
     display: flex;
     flex-flow: column-reverse nowrap;
     scroll-behavior: smooth;
+}
+
+.author-text{
+    grid-area: author;
+    justify-self: start;
+    color: blue;
+
+}
+.comment-text{
+    grid-area: comment;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 75px;
+    min-height: 75px;
+}
+.date-posted{
+    grid-area: created;
+    justify-self: end;
 }
