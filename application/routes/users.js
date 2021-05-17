@@ -18,8 +18,13 @@ router.post('/registration', (req, res, next) => {
   let username = req.body.username;
   let email = req.body.email;
   let password = req.body.password;
-  
-  // do server side validation
+  let redo = req.body.redo;
+ 
+  try{
+
+  } catch (err) {
+    req.flash('error', 'error');
+  }
 
   UserModel.usernameExists(username)
   .then((userDoesNameExist) => {
@@ -54,7 +59,7 @@ router.post('/registration', (req, res, next) => {
     }else{
       successPrint("User.js --> User was created");
           req.flash('success', 'User account has been made');
-          res.redirect('/login');
+          req.session.save(err => {res.redirect("/login")});
     }
   })
   .catch((err) => {
@@ -74,8 +79,6 @@ router.post('/login', (req, res, next) => {
   let username = req.body.username;
   let password = req.body.password;
 
-  let baseSQL = "SELECT id, username, password FROM users WHERE username=?;"
-  let userId;
   UserModel.authenticate(username, password)
   .then((loggedUserId) => {
     console.log(loggedUserId);
@@ -106,6 +109,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/logout',(req, res, next) => {
+  res.render('/');
   // destroys session
   req.session.destroy((err) => {
     if(err) {
@@ -117,7 +121,7 @@ router.post('/logout',(req, res, next) => {
       res.json({status: "OK", message: "user is logged out"});
     }
   })
-})
+});
 
 module.exports = router;
 

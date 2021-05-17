@@ -6,7 +6,7 @@ const { create } = require('../models/comments');
 
 router.post('/create', (req, res, next) => {
     console.log(req.session);
-    if(req.session.username){
+    if(!req.session.username){
         errorPrint("Must be logged in to comment");
         res.json({
             code: -1,
@@ -39,7 +39,7 @@ router.post('/create', (req, res, next) => {
             });
         }
     })
-    .catch((err) => next(err));
+    .catch((err) => next(err)); 
     }
 });
 

@@ -1,5 +1,67 @@
-<link rel="stylesheet" type="text/css" href="public/css/imagepost.css">
+<style>
+ #post-container {
+    grid-area: content;
+    padding-top: .35em;
+    padding-bottom: .35em;
+    display: grid;
+    grid-gap: .2rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+    "photoinfo comments";
+}
+
+#post-details {
+	display:inline-block;
+}
+
+#image{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    grid-area:photoinfo;
+}
+
+div[id^=message-]{
+    display: grid;
+    grid-template-rows: .3fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: .2em;
+    padding: .25rem;
+    margin: .2rem;
+    font-size: 1rem;
+    border: .0625rem solid black;
+    border-radius: .25rem;
+    grid-template-areas: "author created"
+    "comment comment";
+}
+
+	#comment-container {
+    
+    grid-area: comments;
+    grid-template-rows: auto 75px;
+    grid-template-columns: 1fr;
+    gap: .2rem;
+    grid-template-areas: 
+    "messages"
+    "comment-box";
+    max-height: 80vh;
+}
+
+#comment {
+	grid: inline-block;
+}
+
+#messages {
+    grid-area: messages;
+    overflow-y: auto;
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    scroll-behavior: smooth;
+}
+</style>
 <div id="post-container">
+	<div id="post-details">
 	<div id="post-title">
 		<center>
 			<h3>{{currentPost.title}}</h3>
@@ -23,21 +85,86 @@
 	<div id="post-desc">
 		<p>{{currentPost.description}}</p>
 	</div>
+	</div>
 	<div id="comment-container">
 		<div id="messages">
-			<div id="message-">
-				<strong class="author-text">@bcrypt</strong>
-				<span class="date-posted">30 minutes ago</span>
-				<div class="comment-text">Comment test</div>
-			</div>
+			{{#each currentPost.comments}}
+				{{> comment this}}
+			{{/each}}
+		</div>
 			{{!-- {{log this}} --}}
 		</div>
 		<div id="comment-box">
 
 		</div>
+		<div id="comment">
 		<textarea id="comment-box-text" class="form-control" aria-label="with textarea"
 			placeholder="Comment Here"></textarea>
-		<button id="comment-box button" type="submit">Send</button>
+		<button id="comment-box-button" type="submit">Send</button>
+		</div>
 	</div>
 </div>
 </div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', (event) => {
+		document.querySelectorAll('span[class=date-posted]').forEach((postedDate) => {
+			postedDate.textContent = new Date(postedDate.textContent).toLocaleString();
+		});
+	});
+
+	function addFlashFromFrontEnd(message) {
+    let flashMessageDiv = document.createElement('div');
+    let innerFlashDiv = document.createElement('div');
+    let innerTextNode = document.createTextNode(message);
+    innerFlashDiv.appendChild(innerTextNode);
+    flashMessageDiv.appendChild(innerFlashDiv);
+    flashMessageDiv.setAttribute('id', 'flash-message');
+    innerFlashDiv.setAttribute('class', 'alert-info');
+    document.getElementsByTagName('body')[0].appendChild(flashMessageDiv);
+    setFlashMessageFadeOut(flashMessageDiv);
+}
+
+	function addMessage(data){
+		let template = document.createElement('template');
+		template.innerHTML = 
+			`<div id="message-${data.commentId}">
+				<strong class="author-text">@${data.username}</strong>
+				<span class="date-posted">${new Date().toLocaleString()}</span>
+				<div class="comment-text">${data.comment}</div>
+			</div>`;
+			document.getElementById('messages').firstChild.before(template.content.firstChild);
+	}
+
+	document.getElementById('comment-box-button').onclick = (event) => {
+		//console.log('clicked'); // see in inspector console
+		let commentText = document.getElementById('comment-box-text').value;
+		let postId = document.location.pathname.match(/\d+/g).map(Number)[0];
+
+		if(!commentText){
+			return;
+		}
+		let fetchOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type":"Application/json"
+			},
+			body:JSON.stringify({
+				comment:commentText,
+				postId:postId
+			})
+		}
+			fetch('/comments/create', fetchOptions)
+			.then((response) => response.json())
+			.then((data) => {
+				//console.log(data);
+				if(data.code == 1){
+					addMessage(data);
+				}else{
+					addFlashFromFrontEnd(data.message, data.status);
+				}
+			})
+			.catch(err => console.log(err)); // SyntaxError: Unexpected token < in JSON at position 0
+		
+	}
+</script>

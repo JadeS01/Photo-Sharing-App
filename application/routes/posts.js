@@ -51,7 +51,7 @@ router.post('/createPost', uploader.single("uploadImage"), (req, res, next) => {
         .then((postWasCreated) => {
             if (postWasCreated) {
                 req.flash('success', "Your post was created successfully!");
-                res.redirect('/');
+                req.session.save(err => {res.redirect("/")});
             } else {
                 throw new PostError('Post could not be created!', '/postImage', 200);
             }
@@ -88,7 +88,7 @@ router.get('/search', async (req, res, next) => {
             } else {
                 let results = await PostModel.getRecentPosts(12);
                 res.send({
-                    message: "No results were found for your search, but here are the 12 most recent posts.",
+                    message: "No results were found for your search, but here are some recent posts.",
                     results: results
                 });
             }
