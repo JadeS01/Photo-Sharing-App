@@ -4,9 +4,9 @@ const CommentModel = {};
 CommentModel.create = (userId, postId, comment) => {
     let baseSQL = `INSERT INTO comments (comments, fk_postid, fk_authorid) VALUES (?,?,?);`;
     return db
-    .query(baseSQL, [comment, postId, userId])
+    .execute(baseSQL, [userId, postId, comment])
     .then(([results, fields]) => {
-        console.log(results); // can get rid of
+        
         if(results && results.affectedRows){
             return Promise.resolve(results.insertId);
         }else{

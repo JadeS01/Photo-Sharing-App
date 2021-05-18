@@ -69,7 +69,7 @@ div[id^=message-]{
 	</div>
 	<div id="post-author">
 		<center>
-			<p>{{currentPost.username}}</p>
+			<p>Author: {{currentPost.username}}</p>
 		</center>
 	</div>
 	<div id="post-time">
@@ -125,46 +125,44 @@ div[id^=message-]{
     setFlashMessageFadeOut(flashMessageDiv);
 }
 
-	function addMessage(data){
-		let template = document.createElement('template');
-		template.innerHTML = 
-			`<div id="message-${data.commentId}">
-				<strong class="author-text">@${data.username}</strong>
-				<span class="date-posted">${new Date().toLocaleString()}</span>
-				<div class="comment-text">${data.comment}</div>
-			</div>`;
-			document.getElementById('messages').firstChild.before(template.content.firstChild);
-	}
+	function addMessage(data) {
+        let template = document.createElement('template');
+        template.innerHTML =
+            `<div id="message-${data.commentId}">
+            <strong class="author-text">@${data.username}</strong>
+            <span class="date-posted">${new Date().toLocaleString()}</span>
+            <div class="comment-text">${data.comment}</div>
+        </div>`;
+        document.getElementById('messages').firstChild.before(template.content.firstChild);
+    }
+    document.getElementById('comment-box-button').onclick = (event) => {
+        let commentText = document.getElementById('comment-box-text').value;
+        let postId = document.location.pathname.match(/\d+/g).map(Number)[0];
+        document.getElementById('comment-box-text').value = '';
 
-	document.getElementById('comment-box-button').onclick = (event) => {
-		//console.log('clicked'); // see in inspector console
-		let commentText = document.getElementById('comment-box-text').value;
-		let postId = document.location.pathname.match(/\d+/g).map(Number)[0];
+        if (!commentText) {
+            return addFlashFromFrontEnd('Your comment was empty!');
+        }
 
-		if(!commentText){
-			return;
-		}
-		let fetchOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type":"Application/json"
-			},
-			body:JSON.stringify({
-				comment:commentText,
-				postId:postId
-			})
-		}
-			fetch('/comments/create', fetchOptions)
-			.then((response) => response.json())
-			.then((data) => {
-				//console.log(data);
-				if(data.code == 1){
-					addMessage(data);
-				}else{
-					addFlashFromFrontEnd(data.message, data.status);
-				}
-			})
-			.catch(err => console.log(err)); // SyntaxError: Unexpected token < in JSON at position 0
-		
-	}
+        let fetchOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "Application/json"
+            },
+            body: JSON.stringify({
+                comment: commentText,
+                postId: postId
+            })
+        }
+        fetch('/comments/create', fetchOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.code == 1) {
+                    addMessage(data);
+                } else {
+                    addFlashFromFrontEnd(data.message, data.status);
+                }
+            })
+            .catch(err => console.log(err));
+    }
 </script>
