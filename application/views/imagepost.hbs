@@ -9,6 +9,8 @@
     grid-template-rows: 1fr;
     grid-template-areas: 
     "photoinfo comments";
+    background-image: url("https://c4.wallpaperflare.com/wallpaper/952/192/946/persona-persona-4-persona-4-golden-wallpaper-preview.jpg");
+    background-repeat: no-repeat;
 }
 
 #post-details {
@@ -135,7 +137,7 @@ div[id^=message-]{
         </div>`;
         document.getElementById('messages').firstChild.before(template.content.firstChild);
     }
-    document.getElementById('comment-box-button').onclick = (event) => {
+    document.getElementById('comment-box-button').onclick = (event) => { 
         let commentText = document.getElementById('comment-box-text').value;
         let postId = document.location.pathname.match(/\d+/g).map(Number)[0];
         document.getElementById('comment-box-text').value = '';
@@ -154,7 +156,7 @@ div[id^=message-]{
                 postId: postId
             })
         }
-        fetch('/comments/create', fetchOptions)
+        fetch('/comments/create', fetchOptions) //routes/comments.js
             .then((response) => response.json())
             .then((data) => {
                 if (data.code == 1) {

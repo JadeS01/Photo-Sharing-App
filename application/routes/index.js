@@ -20,7 +20,7 @@ router.get('/registration',(req,res,next) => {
 });
 
 router.get('/imagepost',(req,res,next) => {
-  res.render("imagepost",{title: "Image Post"});
+  res.render("login",{title: "Log In"});
 });
 
 router.use('/postImage', isLoggedIn);
@@ -34,6 +34,7 @@ router.get('/home',(req,res,next) => {
 
 router.get('/post/:id(\\d+)', getPostById, getCommentsByPostId, (req, res, next) => {
       res.render('imagepost', {title: `Post ${req.params.id}`});
+      console.log(getCommentsByPostId); 
 });
 
 module.exports = router;

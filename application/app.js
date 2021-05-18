@@ -16,8 +16,6 @@ var commentRouter = require('./routes/comments');
 var errorPrint = require('./helpers/debug/debugprinters').errorPrint;
 var requestPrint = require('./helpers/debug/debugprinters').requestPrint;
 
-var dbRouter = require('./routes/dbtest');
-
 var app = express();
 
 app.engine(
@@ -75,7 +73,6 @@ app.use((req, res, next) => {
 })
 
 app.use('/', indexRouter);
-app.use('/dbtest', dbRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/comments', commentRouter);

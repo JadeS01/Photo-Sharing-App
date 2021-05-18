@@ -2,14 +2,13 @@ var db = require("../conf/database");
 const CommentModel = {};
 
 CommentModel.create = (userId, postId, comment) => {
-    let baseSQL = `INSERT INTO comments (comments, fk_postid, fk_authorid) VALUES (?,?,?);`;
+    let baseSQL = `INSERT INTO comments (comments, fk_postid, fk_authorid) VALUES (?,?,?);`; 
     return db
-    .execute(baseSQL, [userId, postId, comment])
+    .execute(baseSQL, [comment, postId, userId])
     .then(([results, fields]) => {
-        
-        if(results && results.affectedRows){
+        if (results && results.affectedRows) {
             return Promise.resolve(results.insertId);
-        }else{
+        } else {
             return Promise.resolve(-1);
         }
     })
@@ -24,7 +23,8 @@ CommentModel.getCommentsForPost = (postId) => {
     on u.id=fk_authorid
     Where c.fk_postid=?
     ORDER BY c.created DESC`;
-    return db.query(baseSQL, [postId])
+    return db
+    .query(baseSQL, [postId])
     .then(([results, fields]) => {
         return Promise.resolve(results);
     })

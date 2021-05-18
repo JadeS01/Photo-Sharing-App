@@ -4,7 +4,7 @@ const {successPrint, errorPrint} = require('../helpers/debug/debugprinters');
 const { create } = require('../models/comments');
 
 
-router.post('/create', (req, res, next) => {
+router.post('/create', (req, res, next) => { 
     console.log(req.session);
     if(!req.session.username){
         errorPrint("Must be logged in to comment");
@@ -16,7 +16,7 @@ router.post('/create', (req, res, next) => {
     } else {
         let {comment, postId} = req.body;
         let username = req.session.username
-        let userId = req.session.userid
+        let userId = req.session.userId 
 
     create(userId, postId, comment)
     .then((wasSuccessful) => {

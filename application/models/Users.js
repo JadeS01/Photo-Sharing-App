@@ -38,7 +38,7 @@ UserModel.emailExists = (email) => {
 
 UserModel.authenticate = (username, password) => {
     let baseSQL = "SELECT id, username, password FROM users WHERE username=?;";
-    let userId;
+    let userId; 
     return db
     .execute(baseSQL,[username])
     .then(([results, fields]) => {

@@ -36,8 +36,8 @@ postMiddleware.getCommentsByPostId = async function(req, res, next) {
         let results = await getCommentsForPost(postId);
         res.locals.currentPost.comments = results;
         next();
-    } catch(error) {
-        next(error);
+    } catch(err) {
+        next(err);
     }
 }
 

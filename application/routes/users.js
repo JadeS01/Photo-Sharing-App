@@ -20,12 +20,6 @@ router.post('/registration', (req, res, next) => {
   let password = req.body.password;
   let redo = req.body.redo;
  
-  try{
-
-  } catch (err) {
-    req.flash('error', 'error');
-  }
-
   UserModel.usernameExists(username)
   .then((userDoesNameExist) => {
     if(userDoesNameExist){
@@ -78,6 +72,14 @@ router.post('/registration', (req, res, next) => {
 router.post('/login', (req, res, next) => {
   let username = req.body.username;
   let password = req.body.password;
+
+  if(username == null){
+    res.redirect('/login');
+  }
+  if(password == null){
+    res.redirect('/login');
+  }
+  
 
   UserModel.authenticate(username, password)
   .then((loggedUserId) => {
