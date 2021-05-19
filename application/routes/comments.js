@@ -5,7 +5,6 @@ const { create } = require('../models/comments');
 
 
 router.post('/create', (req, res, next) => { 
-    console.log(req.session);
     if(!req.session.username){
         errorPrint("Must be logged in to comment");
         res.json({
@@ -20,7 +19,6 @@ router.post('/create', (req, res, next) => {
 
     create(userId, postId, comment)
     .then((wasSuccessful) => {
-        console.log(wasSuccessful);
         if(wasSuccessful !== -1){
             successPrint(`comment was created for ${username}`);
             res.json({

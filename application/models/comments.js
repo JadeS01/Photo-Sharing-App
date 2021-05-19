@@ -21,7 +21,7 @@ CommentModel.getCommentsForPost = (postId) => {
     FROM comments c
     JOIN users u
     on u.id=fk_authorid
-    Where c.fk_postid=?
+    WHERE c.fk_postid=?
     ORDER BY c.created DESC`;
     return db
     .query(baseSQL, [postId])

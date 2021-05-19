@@ -79,7 +79,7 @@ router.post('/login', (req, res, next) => {
   if(password == null){
     res.redirect('/login');
   }
-  
+
 
   UserModel.authenticate(username, password)
   .then((loggedUserId) => {
@@ -111,7 +111,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/logout',(req, res, next) => {
-  res.render('/');
+  // res.render('/');
   // destroys session
   req.session.destroy((err) => {
     if(err) {
@@ -121,14 +121,10 @@ router.post('/logout',(req, res, next) => {
       successPrint('Session was destroyed');
       res.clearCookie('csid');
       res.json({status: "OK", message: "user is logged out"});
+      req.flash('success', 'You have been logged out');
+      req.session.save(err => {res.redirect("/")});
     }
   })
 });
 
 module.exports = router;
-
-//successPrint(`User ${username} is logged in`);
-//       res.locals.logged = true;
-        // res.cookie("logged", username, {expires: new Date(Date.now()+900000), httpOnly: false});
-        // res.redirect('/');
-//      res.render('index');
