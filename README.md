@@ -19,9 +19,8 @@ Please follow the instructions below and fill in the information requested when 
 # Build/Run Instructions
 
 ## Build Instructions
-1. steps here
-2. steps here
+1. npm install
+2. Dump20210519.sql in /conf
 
 ## Run Instructions
-1. steps here
-2. steps here 
+1. npm start
